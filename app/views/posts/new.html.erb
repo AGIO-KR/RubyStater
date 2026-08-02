@@ -1,0 +1,12 @@
+<h1>새 게시글 작성</h1>
+<div class="form-container">
+  <%= form_with(model: @post, url: posts_path) do |form| %>
+    <%= form.label :title, "제목:" %>
+    <%= form.text_field :title %><br>
+
+    <%= form.label :content, "내용:" %>
+    <%= form.text_area :content %><br>
+
+    <%= form.submit "저장" %>
+  <% end %>
+</div>

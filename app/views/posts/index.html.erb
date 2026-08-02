@@ -1,0 +1,12 @@
+<!-- app/views/posts/index.html.erb -->
+<h1>게시글 목록</h1>
+<%= link_to '게시글 추가하기', new_post_path %>
+<div class="post-list">
+<ul>
+  <% @posts.each do |post| %>
+    <li>
+      <%= link_to post.title, post_path(post) %>
+    </li>
+  <% end %>
+</ul>
+</div>

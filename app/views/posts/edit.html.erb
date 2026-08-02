@@ -1,0 +1,12 @@
+<h3>게시글 수정(Modified)</h3>
+<div class="form-container">
+  <%= form_with(model: @post, url: post_path(@post), method: "patch") do |form| %>
+    <%= form.label :title, "제목:" %>
+    <%= form.text_field :title %><br>
+
+    <%= form.label :content, "내용:" %>
+    <%= form.text_area :content %><br>
+
+    <%= form.submit "저장" %>
+  <% end %>
+</div>
