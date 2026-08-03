@@ -32,13 +32,10 @@ class TodosController < ApplicationController
   def create
     @todo = Todo.new(todo_params)
 
-    respond_to do |format|
-      if @todo.save
-        format.turbo_stream
-        format.html { redirect_to todos_path, notice: "할 일이 추가되었습니다." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @todo.save
+      redirect_to todos_path, notice: "할 일이 추가되었습니다."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -46,35 +43,21 @@ class TodosController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @todo.update(todo_params)
-        format.turbo_stream
-        format.html { redirect_to todos_path, notice: "할 일이 수정되었습니다." }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+    if @todo.update(todo_params)
+      redirect_to todos_path, notice: "할 일이 수정되었습니다."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def toggle
     @todo.update(completed: !@todo.completed)
-    
-    fetch_stats
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to todos_path }
-    end
+    redirect_to todos_path(filter: params[:filter])
   end
 
   def destroy
     @todo.destroy
-    fetch_stats
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to todos_path, notice: "할 일이 삭제되었습니다." }
-    end
+    redirect_to todos_path, notice: "할 일이 삭제되었습니다."
   end
 
   private
@@ -85,13 +68,5 @@ class TodosController < ApplicationController
 
   def todo_params
     params.require(:todo).permit(:title, :content, :completed, :due_date, :priority)
-  end
-
-  def fetch_stats
-    all_todos = Todo.all
-    @total_count = all_todos.count
-    @completed_count = all_todos.completed_list.count
-    @active_count = all_todos.active_list.count
-    @progress_percentage = @total_count.zero? ? 0 : ((@completed_count.to_f / @total_count) * 100).round
   end
 end

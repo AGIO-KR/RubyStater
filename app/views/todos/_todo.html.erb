@@ -5,7 +5,7 @@
     <div class="flex items-start space-x-3.5 flex-1 min-w-0">
       
       <!-- Toggle Checkbox Button -->
-      <%= button_to toggle_todo_path(todo), method: :patch, class: "mt-0.5 flex-shrink-0 group/btn focus:outline-none", form: { data: { turbo_frame: dom_id(todo) } } do %>
+      <%= button_to toggle_todo_path(todo, filter: params[:filter]), method: :patch, class: "mt-0.5 flex-shrink-0 group/btn focus:outline-none" do %>
         <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-200 #{todo.completed? ? 'bg-emerald-500 border-emerald-500 shadow-md shadow-emerald-500/30' : 'border-slate-600 bg-slate-800/60 group-hover/btn:border-indigo-400'}">
           <% if todo.completed? %>
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
