@@ -1,12 +1,49 @@
-<!-- app/views/posts/index.html.erb -->
-<h1>게시글 목록</h1>
-<%= link_to '게시글 추가하기', new_post_path %>
-<div class="post-list">
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-      <%= link_to post.title, post_path(post) %>
-    </li>
-  <% end %>
-</ul>
+<div class="space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800/60">
+    <div>
+      <h1 class="text-3xl font-extrabold font-outfit tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent flex items-center gap-3">
+        <span>📝 게시판 (Posts)</span>
+      </h1>
+      <p class="mt-1 text-sm text-slate-400">
+        자유롭게 생각과 의견을 나누는 공간입니다.
+      </p>
+    </div>
+
+    <%= link_to new_post_path, class: "inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/30 transition-all self-start sm:self-auto" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      <span>새 게시글 작성</span>
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% if @posts.any? %>
+      <% @posts.each do |post| %>
+        <%= link_to post_path(post), class: "group bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 transition-all duration-200 shadow-md hover:shadow-indigo-500/10 flex flex-col justify-between" do %>
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <h3 class="text-lg font-bold text-slate-100 group-hover:text-indigo-400 transition-colors line-clamp-1">
+                <%= post.title %>
+              </h3>
+              <span class="text-xs text-slate-500 flex-shrink-0">
+                <%= post.created_at.strftime("%Y.%m.%d") %>
+              </span>
+            </div>
+            <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed">
+              <%= post.content %>
+            </p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-indigo-400 font-medium">
+            <span>자세히 보기 →</span>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="col-span-full py-16 text-center bg-slate-900/40 border border-slate-800/60 border-dashed rounded-2xl">
+        <p class="text-slate-400 text-sm">작성된 게시글이 없습니다.</p>
+      </div>
+    <% end %>
+  </div>
 </div>

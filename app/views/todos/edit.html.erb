@@ -1,0 +1,14 @@
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="flex items-center space-x-3">
+    <%= link_to todos_path, class: "p-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition-colors" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    <% end %>
+    <h1 class="text-2xl font-bold font-outfit text-slate-100">할 일 수정하기</h1>
+  </div>
+
+  <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <%= render "form", todo: @todo %>
+  </div>
+</div>

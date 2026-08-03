@@ -1,12 +1,29 @@
-<h1>새 게시글 작성</h1>
-<div class="form-container">
-  <%= form_with(model: @post, url: posts_path) do |form| %>
-    <%= form.label :title, "제목:" %>
-    <%= form.text_field :title %><br>
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="flex items-center space-x-3">
+    <%= link_to posts_path, class: "p-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition-colors" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    <% end %>
+    <h1 class="text-2xl font-bold font-outfit text-slate-100">새 게시글 작성</h1>
+  </div>
 
-    <%= form.label :content, "내용:" %>
-    <%= form.text_area :content %><br>
+  <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 shadow-xl">
+    <%= form_with(model: @post, url: posts_path, class: "space-y-4") do |f| %>
+      <div>
+        <%= f.label :title, "제목", class: "block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" %>
+        <%= f.text_field :title, required: true, placeholder: "제목을 입력하세요", class: "w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm transition-all" %>
+      </div>
 
-    <%= form.submit "저장" %>
-  <% end %>
+      <div>
+        <%= f.label :content, "내용", class: "block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" %>
+        <%= f.text_area :content, rows: 6, required: true, placeholder: "내용을 작성하세요", class: "w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm transition-all resize-none" %>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-2">
+        <%= link_to "취소", posts_path, class: "px-4 py-2 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-sm font-medium transition-colors" %>
+        <%= f.submit "저장하기", class: "px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 transition-all transform active:scale-95 cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
 </div>

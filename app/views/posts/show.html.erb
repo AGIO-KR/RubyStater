@@ -1,8 +1,35 @@
-<div class="post-detail">
-    <h1><%= @post.title %></h1>
-    <p><%= @post.content %></p>
+<div class="max-w-3xl mx-auto space-y-6">
+  <div class="flex items-center justify-between">
+    <%= link_to posts_path, class: "inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-sm font-medium transition-colors" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      <span>목록으로 돌아가기</span>
+    <% end %>
 
-    <%= link_to '목록으로', posts_path %> |
-    <%= link_to '수정', edit_post_path(@post) %> |
-    <%= button_to '삭제', @post, method: :delete, data: { confirm: "정말로 삭제하시겠습니까?" } %>
-</div>    
+    <div class="flex items-center space-x-2">
+      <%= link_to edit_post_path(@post), class: "px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-indigo-400 hover:bg-slate-700 text-sm font-medium transition-colors" do %>
+        수정
+      <% end %>
+
+      <%= button_to post_path(@post), method: :delete, class: "px-3.5 py-2 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 text-sm font-medium transition-colors", data: { turbo_confirm: "정말로 삭제하시겠습니까?" } do %>
+        삭제
+      <% end %>
+    </div>
+  </div>
+
+  <article class="bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+    <header class="pb-4 border-b border-slate-800">
+      <h1 class="text-2xl sm:text-3xl font-bold font-outfit text-slate-100 mb-2">
+        <%= @post.title %>
+      </h1>
+      <time class="text-xs text-slate-500">
+        작성일: <%= @post.created_at.strftime("%Y년 %m월 %d일 %H:%M") %>
+      </time>
+    </header>
+
+    <div class="prose prose-invert max-w-none text-slate-300 leading-relaxed whitespace-pre-wrap">
+      <%= @post.content %>
+    </div>
+  </article>
+</div>

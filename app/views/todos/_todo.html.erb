@@ -1,0 +1,89 @@
+<div id="<%= dom_id(todo) %>" class="group relative bg-slate-900/80 backdrop-blur-md border border-slate-800 hover:border-slate-700/80 rounded-2xl p-4 sm:p-5 transition-all duration-200 shadow-md hover:shadow-indigo-500/5 hover:-translate-y-0.5">
+  <div class="flex items-start justify-between gap-4">
+    
+    <!-- Left: Checkbox & Todo Details -->
+    <div class="flex items-start space-x-3.5 flex-1 min-w-0">
+      
+      <!-- Toggle Checkbox Button -->
+      <%= button_to toggle_todo_path(todo), method: :patch, class: "mt-0.5 flex-shrink-0 group/btn focus:outline-none", form: { data: { turbo_frame: dom_id(todo) } } do %>
+        <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-200 #{todo.completed? ? 'bg-emerald-500 border-emerald-500 shadow-md shadow-emerald-500/30' : 'border-slate-600 bg-slate-800/60 group-hover/btn:border-indigo-400'}">
+          <% if todo.completed? %>
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+          <% else %>
+            <svg class="w-3.5 h-3.5 text-indigo-400 opacity-0 group-hover/btn:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- Text content -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+          <!-- Title -->
+          <h3 class="text-base font-semibold transition-colors duration-200 #{todo.completed? ? 'line-through text-slate-500' : 'text-slate-100'}">
+            <%= todo.title %>
+          </h3>
+
+          <!-- Priority Badge -->
+          <% case todo.priority %>
+          <% when "high" %>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+              🔥 높음
+            </span>
+          <% when "medium" %>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              ⚡ 보통
+            </span>
+          <% when "low" %>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-slate-500/10 text-slate-400 border border-slate-500/20">
+              ☕ 낮음
+            </span>
+          <% end %>
+
+          <!-- Due Date Badge -->
+          <% if todo.due_date.present? %>
+            <% if todo.overdue? %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-red-500/15 text-red-300 border border-red-500/30 animate-pulse">
+                ⏰ 마감 지연 (<%= todo.due_date.strftime("%m/%d") %>)
+              </span>
+            <% elsif todo.due_today? %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                📌 오늘 마감
+              </span>
+            <% else %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700/60">
+                📅 <%= todo.due_date.strftime("%Y-%m-%d") %>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- Description Content -->
+        <% if todo.content.present? %>
+          <p class="mt-1.5 text-sm text-slate-400 line-clamp-2 leading-relaxed #{'line-through opacity-60' if todo.completed?}">
+            <%= todo.content %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Right: Actions (Edit, Delete) -->
+    <div class="flex items-center space-x-1 opacity-80 group-hover:opacity-100 transition-opacity">
+      <%= link_to edit_todo_path(todo), class: "p-2 rounded-lg text-slate-400 hover:text-indigo-400 hover:bg-slate-800 transition-colors", title: "수정" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+      <% end %>
+
+      <%= button_to todo_path(todo), method: :delete, class: "p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors", title: "삭제", data: { turbo_confirm: "정말 이 할 일을 삭제하시겠습니까?" } do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+      <% end %>
+    </div>
+
+  </div>
+</div>
